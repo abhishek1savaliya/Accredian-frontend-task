@@ -23,6 +23,7 @@ const Signup = () => {
         }
         
       } catch (error) {
+        alert("user already exist! try with different username and password");
         console.error(error);
       }
     } else {
