@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Container, Paper, Typography } from '@mui/material';
 import axios from 'axios';
@@ -8,27 +8,32 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  useEffect(() => {
+
+    const loggedIn = localStorage.getItem('token') !== null;
+
+    if (loggedIn) {
+      navigate('/home');
+    }
+  }, [navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await axios.post('https://sqlnode.onrender.com/user/login', {
         username: username,
         password: password
       });
 
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('token', JSON.stringify({token: response.data.token, expiresAt: new Date().getTime() + 24 * 60 * 60 * 1000}));
       
       navigate('/home')
 
-
     } catch (error) {
+      alert('Enter correct credentials')
       console.error('API Error:', error);
     }
   };
-
-
- 
 
   const navigation = ()=>{
     navigate('/signup')

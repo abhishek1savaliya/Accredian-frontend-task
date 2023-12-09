@@ -1,7 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Typography, Container, Paper } from '@mui/material';
+import { useNavigate } from 'react-router-dom'; 
 
 const Logout = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const loggedIn = localStorage.getItem('token') !== null;
+
+    if (loggedIn) {
+      navigate('/home');
+    }
+  }, [navigate]);
+
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      navigate('/login');
+    }, 3000);
+
+    return () => clearTimeout(timeoutId);
+  }, [navigate]);
+
   return (
     <Container maxWidth="sm" style={{ marginTop: '50px' }}>
       <Paper elevation={3} style={{ padding: '20px' }}>

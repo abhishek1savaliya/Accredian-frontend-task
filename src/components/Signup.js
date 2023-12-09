@@ -18,7 +18,10 @@ const Signup = () => {
           username: username,  
           password: password  
         });
-        navigate('/');
+        if(response){
+          navigate('/login');
+        }
+        
       } catch (error) {
         console.error(error);
       }
