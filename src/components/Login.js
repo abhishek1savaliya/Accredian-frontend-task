@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Container, Paper, Typography } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 import axios from 'axios';
 
 const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
 
@@ -20,22 +23,25 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+
+      setLoading(true)
+
       const response = await axios.post('https://sqlnode.onrender.com/user/login', {
         username: username,
         password: password
       });
 
-      localStorage.setItem('token', JSON.stringify({token: response.data.token, expiresAt: new Date().getTime() + 24 * 60 * 60 * 1000}));
-      
+      localStorage.setItem('token', JSON.stringify({ token: response.data.token, expiresAt: new Date().getTime() + 24 * 60 * 60 * 1000 }));
+
       navigate('/home')
 
     } catch (error) {
+      setLoading(false)
       alert('Enter correct credentials')
-      console.error('API Error:', error);
     }
   };
 
-  const navigation = ()=>{
+  const navigation = () => {
     navigate('/signup')
   }
 
@@ -63,12 +69,17 @@ const Login = () => {
               type="password"
               onChange={(e) => setPassword(e.target.value)}
             />
-         <Button type="submit" variant="contained" color="primary" >
-  Login
-</Button>
-<Button  variant="contained" onClick={navigation} color="secondary" style={{ marginLeft: 8 }}>
-  sign-up
-</Button>
+            <Button type="submit" variant="contained" color="primary" >
+              {
+                loading ? <Box sx={{ display: 'flex'}} >
+                  <CircularProgress style={{ color: 'white' }} />
+                </Box> : 'Login'
+              }
+
+            </Button>
+            <Button variant="contained" onClick={navigation} color="secondary" style={{ marginLeft: 8 }}>
+              sign-up
+            </Button>
 
           </form>
         </Paper>

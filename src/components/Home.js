@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; 
+import axios from 'axios';
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -39,36 +39,36 @@ const Home = () => {
     };
 
     fetchData();
-  }, []); 
+  }, []);
 
   return (
     <div>
-      <h1>Hello, Welcome to home page</h1>
-      
-      <div>
-      <h1>Total Users: {data?.length}</h1>
-      <Paper>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell align="center"><strong>Username</strong></TableCell>
-            <TableCell align="center"><strong>Password</strong></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((user, index) => (
-            <TableRow key={index}>
-              <TableCell align="center">{user.username}</TableCell>
-              <TableCell align="center">{user.password}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Paper>
-    </div>
+      <h1 style={{ color: '#2196F3' }}>Hello, Welcome to home page</h1>
 
       <div>
-        <Button onClick={handleLogout} variant="contained" color="primary" style={{ marginTop: 20, marginBottom : 50 }}>
+        <h1 >Total Users: <span style={{ color: 'green' }}>{data?.length}</span> </h1>
+        <Paper>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell align="center"><strong>Username</strong></TableCell>
+                <TableCell align="center"><strong>Encrypted password</strong></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data.map((user, index) => (
+                <TableRow key={index}>
+                  <TableCell align="center">{user.username}</TableCell>
+                  <TableCell align="center">{user.password}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+      </div>
+
+      <div>
+        <Button onClick={handleLogout} variant="contained" color="primary" style={{ marginTop: 20, marginBottom: 50 }}>
           Logout
         </Button>
       </div>
