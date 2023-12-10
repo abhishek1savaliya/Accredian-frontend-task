@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -29,7 +31,8 @@ const Home = () => {
               'token': storedToken.token
             }
           });
-          setData(response.data.data)
+            setData(response.data.data)
+
         } else {
           console.error('Invalid or missing token');
         }
@@ -47,24 +50,35 @@ const Home = () => {
 
       <div>
         <h1 >Total Users: <span style={{ color: 'green' }}>{data?.length}</span> </h1>
+
         <Paper>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell align="center"><strong>Username</strong></TableCell>
-                <TableCell align="center"><strong>Encrypted password</strong></TableCell>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell align="center"><strong>Username</strong></TableCell>
+            <TableCell align="center"><strong>Encrypted password</strong></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {data.length > 0 ? (
+            data.map((user, index) => (
+              <TableRow key={index}>
+                <TableCell align="center">{user.username}</TableCell>
+                <TableCell align="center">{user.password}</TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.map((user, index) => (
-                <TableRow key={index}>
-                  <TableCell align="center">{user.username}</TableCell>
-                  <TableCell align="center">{user.password}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Paper>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={2}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '200px' }}>
+                  <CircularProgress style={{ color: 'blue' }} />
+                </Box>
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </Paper>
       </div>
 
       <div>
